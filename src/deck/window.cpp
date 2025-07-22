@@ -12,8 +12,7 @@ flags(flags),
 running(true)
 {
     window = SDL_CreateWindow(title.c_str(), width, height, flags);
-    renderer = SDL_CreateRenderer(window, "opengl");
-
+    renderer = SDL_CreateRenderer(window, NULL);
     if(!window || !renderer){
         SDL_Log("Window initialization error: %s", SDL_GetError());
         SDL_Quit();
