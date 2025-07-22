@@ -15,7 +15,7 @@ Simple coin collecting game made using SDL3.
 Clone this repository:
 
 ```
-https://github.com/5tack-s/knight_game/
+git clone https://github.com/5tack-s/knight_game/
 ```
 
 After installing all the dependencies, run the following in knight_game/ to compile:
