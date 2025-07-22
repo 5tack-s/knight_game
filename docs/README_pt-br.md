@@ -13,7 +13,7 @@ Jogo simples de coleta de moedas feito com SDL3.
 Clone este repositório:
 
 ```
-https://github.com/5tack-s/knight_game/
+git clone https://github.com/5tack-s/knight_game/
 ```
 
 Depois de instalar todas as dependências, execute o seguinte em knight_game/ para compilar:
