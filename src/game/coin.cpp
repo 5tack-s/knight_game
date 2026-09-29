@@ -10,6 +10,7 @@ Coin::Coin(SDL_FRect spritePortion, SDL_FRect entityRect, std::string spriteSour
  )
 {
     flip = SDL_FLIP_NONE;
+    picked = false;
     hitbox.w = 10;
     hitbox.h = 10;
 }

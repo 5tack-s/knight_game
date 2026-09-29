@@ -15,8 +15,11 @@ class Mix {
         void playWAV(int loops);
 
     private:
-        Mix_Music* music;
-        Mix_Chunk* sfx;
+        MIX_Mixer* mixer;
+        MIX_Track* music_track;
+        MIX_Track* sfx_track;
+        MIX_Audio* sfx;
+        MIX_Audio* music;
 };
 
 #endif

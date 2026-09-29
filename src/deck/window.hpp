@@ -28,6 +28,10 @@ class Window {
     
     public:
         double deltaTime;
+
+    private:
+        void emscripten_loop_wrapper(void* arg);
+        void doEverything();
     
     private:
         SDL_Renderer* renderer;

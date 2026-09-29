@@ -1,7 +1,11 @@
-
+#ifndef ASSET_ROOT
+    #define ASSET_ROOT ""
+#endif
 
 
 #include "character.hpp"
+#include "SDL3/SDL_scancode.h"
+
 
 constexpr int spriteGridSize = 32;
 
@@ -26,19 +30,19 @@ Character::Character(SDL_FRect spritePortion, SDL_FRect entityRect, std::string 
     lockMovement = false;
 
     rollSfx.loadWAV(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sounds/tap.wav"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sounds/tap.wav"
     );
 
     hurtSfx.loadWAV(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sounds/hurt.wav"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sounds/hurt.wav"
     );
 
     deathSfx.loadWAV(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sounds/explosion.wav"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sounds/explosion.wav"
     );
 
     coinPickupSfx.loadWAV(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sounds/coin.wav"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sounds/coin.wav"
     );
     
 }
@@ -114,18 +118,18 @@ void Character::handleMovement(double deltaTime) {
     float dx = 0.0f, dy = 0.0f;
     moving = false;
 
-    if (keys[SDL_SCANCODE_A]) {
+    if (keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_LEFT]) {
         dx = -1;
         flip = SDL_FLIP_HORIZONTAL;
     }
-    if (keys[SDL_SCANCODE_D]) {
+    if (keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_RIGHT]) {
         dx = 1;
         flip = SDL_FLIP_NONE;
     }
-    if (keys[SDL_SCANCODE_W]) {
+    if (keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP]) {
         dy = -1;
     }
-    if (keys[SDL_SCANCODE_S]) {
+    if (keys[SDL_SCANCODE_S] || keys[SDL_SCANCODE_DOWN]) {
         dy = 1;
     }
 
@@ -138,7 +142,7 @@ void Character::handleMovement(double deltaTime) {
         entityRect.y += dy * speed * deltaTime;
         moving = true;
 
-    if (keys[SDL_SCANCODE_LSHIFT] && !isOnRollCooldown && !rolling) {
+    if (keys[SDL_SCANCODE_SPACE] && !isOnRollCooldown && !rolling) {
             frame = 0;
             rollSfx.playWAV(1);
             rolling = true;
@@ -146,6 +150,8 @@ void Character::handleMovement(double deltaTime) {
             rollDirection = {dx, dy};
     }
 }
+
+
 }
 
 void Character::setMoving(bool moving) {

@@ -1,4 +1,9 @@
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "window.hpp"
+
 
 //clock logic
     int now = SDL_GetPerformanceCounter();
@@ -39,13 +44,27 @@ void Window::manageEvents(){
     if(eventLoop) eventLoop();
 }
 
+void Window::doEverything(){
+    render();
+    manageEvents();
+    if(renderCallback) renderCallback();
+    if(logicalLoop) logicalLoop();
+
+    #ifdef __EMSCRIPTEN__
+        if(!running) emscripten_cancel_main_loop();
+    #endif
+}
+
 void Window::run(){
+    #ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop_arg(
+        [](void* self){ static_cast<Window*>(self)->doEverything();}, 
+        this,0, 1);
+    #else
     while(running){
-        render();
-        manageEvents();
-        if(renderCallback) renderCallback();
-        if(logicalLoop) logicalLoop();
+        doEverything();
     }
+    #endif
 }
 
 SDL_Renderer* Window::getRenderer(){

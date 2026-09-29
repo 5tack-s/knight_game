@@ -1,4 +1,8 @@
-#include <iostream>
+#ifndef ASSET_ROOT
+#define ASSET_ROOT ""
+#endif
+
+
 #include <deck.hpp>
 #include <ctime>
 #include <memory>
@@ -13,13 +17,14 @@ int COIN_AMOUNT = 5;
 
 void setupCoins(std::vector<std::unique_ptr<Coin>>& coins, SDL_Renderer* renderer){
    for (int i = 0; i < COIN_AMOUNT; i++) {
+
         float rand1 = SDL_randf();
         float rand2 = SDL_randf();
 
         coins.push_back(std::make_unique<Coin>(
             SDL_FRect{0.0, 0.0, 15.0, 15.0},
             SDL_FRect{450 * rand1, 450 * rand2, 25, 25},
-            std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sprites/coin.png"
+            std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sprites/coin.png"
         ));
 
         coins[i]->init(renderer);
@@ -34,7 +39,7 @@ void setupEnemies(std::vector<std::unique_ptr<Enemy>>& enemies, SDL_Renderer* re
         enemies.push_back(std::make_unique<Enemy>(
             SDL_FRect{0.0, 0.0, 25.0, 25.0},
             SDL_FRect{450 * rand1, 450 * rand2, 40, 40},
-            std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sprites/slime_green.png"
+            std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sprites/slime_green.png"
         ));
 
         enemies[i]->init(renderer);
@@ -48,12 +53,11 @@ void growEnemies(std::vector<std::unique_ptr<Enemy>>& enemies, SDL_Renderer* ren
         enemies.push_back(std::make_unique<Enemy>(
             SDL_FRect{0.0, 0.0, 25.0, 25.0},
             SDL_FRect{450 * rand1, 450 * rand2, 40, 40},
-            std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sprites/slime_green.png"
+            std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sprites/slime_green.png"
         ));
 
         enemies.back()->init(renderer);
 }
-
 
 int main () {
     SDL_srand(static_cast<unsigned int>(time(nullptr)));
@@ -71,7 +75,7 @@ int main () {
     Character character(
         {0.0, 0.0, 30.0, 30.0},
         {windowConstants::width/3, windowConstants::height/3, 50, 50},
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/sprites/knight.png"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/sprites/knight.png"
     );
 
     std::vector<std::unique_ptr<Enemy>> enemies;
@@ -82,7 +86,7 @@ int main () {
 
 
     scoreText.start(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/fonts/PixelOperator8.ttf",
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/fonts/PixelOperator8.ttf",
         16,
         window.getRenderer()
     );
@@ -91,7 +95,7 @@ int main () {
     scoreText.createText();
 
     highscoreText.start(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/fonts/PixelOperator8.ttf",
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/fonts/PixelOperator8.ttf",
         16,
         window.getRenderer()
     );
@@ -100,7 +104,7 @@ int main () {
     highscoreText.createText();
 
     music.loadMusic(
-        std::string(SDL_GetBasePath()) + "assets/brackeys_platformer_assets/music/time_for_adventure.mp3"
+        std::string(ASSET_ROOT) + "/assets/brackeys_platformer_assets/music/time_for_adventure.mp3"
     );
     music.playMusic();
 
@@ -185,11 +189,13 @@ int main () {
                 case SDL_EVENT_QUIT:
                     window.setRunning(false);
                     break;
-
                 case SDL_EVENT_KEY_DOWN:
+                    SDL_Log("scancode=%d key=%s mod=0x%x down=%d",
+            (int)event.key.scancode, SDL_GetKeyName(event.key.key), event.key.mod, event.key.down);
                     break;
                 case SDL_EVENT_KEY_UP:
                     break;
+                
             }
         }
     });
