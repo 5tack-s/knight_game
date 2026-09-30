@@ -20,6 +20,12 @@ jobs:
       - name: build
         run: cmake --build build-web
 
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build-web/bin/
+
       - uses: actions/upload-artifact@v4
         with:
           name: web-build
@@ -28,17 +34,15 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions: 
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Upload static files as artifact
-        id: deployment
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: build-web/bin/
-    
       - name: deploy to github pages
+        id: deployment
         uses: actions/deploy-pages@v4
       
         
