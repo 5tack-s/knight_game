@@ -61,3 +61,6 @@ $ python -m http.server 8080 -d build-web/bin
 
 ## Demo
 https://github.com/user-attachments/assets/cae325a6-eff9-46fd-9810-a25620cece8b
+
+## Playable web demo
+https://5tack-s.github.io/knight_game/
